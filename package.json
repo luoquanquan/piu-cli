@@ -10,5 +10,8 @@
     "hi": "./bin/hi.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.16.0"
+  }
 }
