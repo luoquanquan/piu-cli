@@ -7,15 +7,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "hi": "./bin/hi.js"
+    "light": "./bin/light.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-latest-node": "^1.0.0",
+    "babel-register": "^6.26.0",
     "commander": "^2.16.0"
   },
   "devDependencies": {
-    "eslint": "^5.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-html": "^4.0.5",
     "eslint-plugin-import": "^2.13.0",
