@@ -1,8 +1,6 @@
-exports.constant = require('./constant')
-
 exports.metalsmith = true
 
-exports.registry = 'Light-cli'
+exports.registry = 'piu-cli'
 exports.repoType = 'org'
 
 const os = require('os')
@@ -21,8 +19,8 @@ exports.ua = `${name}-${version}`
  */
 exports.dirs = {
   home,
-  download: `${home}/.webpack-project`,
-  rc: `${home}/.webpack-project`,
+  download: `${home}/.piu-cli-project`,
+  rc: `${home}/.piu-cli-project`,
   tmp: os.tmpdir(),
   metalsmith: 'metalsmith'
 }
