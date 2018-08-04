@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 const mkdirp = require('mkdirp')
 const { exists } = require('mz/fs')
 const { execSync } = require('child_process')
-const { dirs } = require('../../config/constant')
+const { dirs } = require('../../config')
 const question = require('./initProjectQuestion')
 const render = require('./render')
 
