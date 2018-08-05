@@ -26,7 +26,8 @@ program
     const { repo } = await inquirer.prompt(questions)
     // 获取选择仓库所有的版本
     const tags = await git.fetchRepoTagList(repo)
-    const { name: version } = tags.pop()
+    const { name: version } = tags.shift()
+    console.log(version)
     const loaderProject = OraLoading('正在加速为你下载代码...')
     await git.download([repo, version].join('@'))
     loaderProject.succeed('项目下载完成啦, 开启你的操作吧 !  !   !     !')
