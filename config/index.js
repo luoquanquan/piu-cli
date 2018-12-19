@@ -1,38 +1,11 @@
-exports.metalsmith = true
-
-exports.registry = 'piu-cli'
-exports.repoType = 'org'
-
-const os = require('os')
-const { name, version, engines } = require('../package.json')
-
-
-// 系统user文件夹
-const home = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
-
-// user agent
-exports.ua = `${name}-${version}`
-
-/**
- * 文件夹定义
- * @type {Object}
+/*
+ * @Author: luoquanquan
+ * @Date: 2018-11-15 16:59:31
+ * @LastEditors: luoquanquan
+ * @LastEditTime: 2018-12-19 19:12:45
  */
-exports.dirs = {
-  home,
-  download: `${home}/.piu-cli-project`,
-  rc: `${home}/.piu-cli-project`,
-  tmp: os.tmpdir(),
-  metalsmith: 'metalsmith'
-}
 
-/**
- * 版本
- * @type {Object}
- */
-exports.versions = {
-  node: process.version.substr(1),
-  nodeEngines: engines.node,
-  [name]: version
-}
-
-exports.baseUrl = 'https://api.github.com'
+//  github api 基础地址
+exports.baseURL = 'https://api.github.com'
+// github 组织名称
+exports.orgName = 'piu-cli'

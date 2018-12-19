@@ -7,6 +7,7 @@ module.exports = {
         semi: [2, 'never'],
         'class-methods-use-this': 0,
         'comma-dangle': [2, 'never'],
-        'no-param-reassign': 0
+        'no-param-reassign': 0,
+        'no-console': 0
     }
 };

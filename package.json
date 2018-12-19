@@ -1,48 +1,27 @@
 {
   "name": "piu-cli",
-  "version": "1.0.5",
-  "description": "",
+  "version": "2.0.0",
+  "description": "piu-cli 一个用来玩耍的脚手架",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "piu": "./bin/piu.js"
+    "piu": "./bin/www"
   },
-  "author": "",
+  "keywords": ["piu-cli", "cli", "piu", "koa"],
+  "author": "luo_quanquan@163.com",
   "license": "ISC",
-  "engines": {
-    "node": ">= 0.12"
-  },
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-latest-node": "^1.0.0",
-    "babel-register": "^6.26.0",
-    "commander": "^2.16.0",
-    "consolidate": "^0.15.1",
-    "download-git-repo": "^1.0.2",
-    "inquirer": "^6.0.0",
-    "metalsmith": "^2.3.0",
-    "mkdirp": "^0.5.1",
-    "mz": "^2.7.0",
-    "ncp": "^2.0.0",
-    "ora": "^3.0.0",
-    "request": "^2.87.0",
-    "request-promise": "^4.2.2",
-    "rmfr": "^2.0.0",
-    "swig": "^1.4.2"
+    "axios": "^0.18.0",
+    "colors": "^1.3.2",
+    "commander": "^2.19.0",
+    "download-git-repo": "^1.1.0",
+    "inquirer": "^6.2.0",
+    "ora": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-html": "^4.0.5",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0"
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0"
   }
 }

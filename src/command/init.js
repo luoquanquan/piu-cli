@@ -1,65 +1,112 @@
-const program = require('commander')
+/*
+ * @Author: luoquanquan
+ * @Date: 2018-11-19 17:55:57
+ * @LastEditors: luoquanquan
+ * @LastEditTime: 2018-12-19 20:05:03
+ */
+
+// 命令管理
+const commander = require('commander')
+// 命令行交互工具
 const inquirer = require('inquirer')
-const { resolve } = require('path')
-const rmfr = require('rmfr')
-const { readdir, exists } = require('mz/fs')
-const { dirs, metalsmith } = require('../../config')
-const copyFile = require('../utils/copyFile')
-const metalsmithACtion = require('../utils/metalsmithACtion')
-const OraLoading = require('../utils/OraLoading')
+// 命令行中显示加载中
+const ora = require('ora')
+const Git = require('../tools/git')
 
+class Download {
+  constructor() {
+    this.git = new Git()
+    this.commander = commander
+    this.inquirer = inquirer
+    this.getProList = ora('获取项目列表...')
+    this.getTagList = ora('获取项目版本...')
+    this.downLoad = ora('正在加速为您下载代码...')
+  }
 
-program
-  .command('init')
-  .description('init project for local')
-  .action(async () => {
-    let loader
-    loader = OraLoading('检查本地模版库')
-    if (!await exists(dirs.download)) {
-      throw new Error(`There is no ${dirs.download}, Please install a template`)
+  run() {
+    this.commander
+      .command('init')
+      .description('从远程下载代码到本地...')
+      .action(() => { this.download() })
+
+    this.commander.parse(process.argv)
+  }
+
+  async download() {
+    let getProListLoad
+    let getTagListLoad
+    let downLoadLoad
+    let repos
+    let version
+
+    // 获取所在项目组的所有可开发项目列表
+    try {
+      getProListLoad = this.getProList.start()
+      repos = await this.git.getProjectList()
+      getProListLoad.succeed('获取项目列表成功')
+    } catch (error) {
+      console.log(error)
+      getProListLoad.fail('获取项目列表失败...')
+      process.exit(-1)
     }
-    const list = await readdir(dirs.download)
-    if (list.length === 0) {
-      throw new Error(`There is no any scaffolds in your local folder ${dirs.download}, install it`)
+
+    // 向用户咨询他想要开发的项目
+    if (repos.length === 0) {
+      console.log('\n可以开发的项目数为 0, 肯定是配置错啦~~\n'.red)
+      process.exit(-1)
     }
-    loader.succeed('检查本地模版库完成')
-    const questions = [{
-      type: 'list',
-      name: 'template',
-      message: '你想要开发啥样子的项目咧 ^ _ ^ ?',
-      choices: list
-    }, {
-      type: 'input',
-      name: 'dir',
-      message: '请输入项目名称',
-      async validate(input) {
-        const done = this.async()
-        if (input.length === 0) {
-          done('你必须输入项目名')
-          return
-        }
-        const dir = resolve(process.cwd(), input)
-        if (await exists(dir)) {
-          done('项目已存在，请重新输入别的项目名')
-        }
-        done(null, true)
+    const choices = repos.map(({ name }) => name)
+    const questions = [
+      {
+        type: 'list',
+        name: 'repo',
+        message: '请选择你想要开发的项目类型',
+        choices
       }
-    }]
-    const answers = await inquirer.prompt(questions)
-    if (metalsmith) {
-      const tmp = `${dirs.tmp}/${answers.template}`
-      // 复制一份到临时目录，在临时目录编译生成
-      // loader = OraLoading('copy file to tmp dir')
-      await copyFile(`${dirs.download}/${answers.template}`, tmp)
-      // loader.succeed('copy file to tmp dir success')
-      await metalsmithACtion(answers.template)
-      loader = OraLoading('编译', answers.dir)
-      await copyFile(`${tmp}/${dirs.metalsmith}`, answers.dir)
-      await rmfr(tmp) // 清除临时文件夹
-    } else {
-      loader = OraLoading(`正在创建 ${answers.dir}`)
-      await copyFile(`${dirs.download}/${answers.template}`, answers.dir)
+    ]
+    const { repo } = await this.inquirer.prompt(questions)
+
+    // 获取项目的版本, 这里默认选择确定项目的最近一个版本
+    try {
+      getTagListLoad = this.getTagList.start();
+      [{ name: version }] = await this.git.getProjectVersions(repo)
+      getTagListLoad.succeed(`
+        ${`${'^_^  '.green} ${'来啦老弟'.yellow} ${'  ^_^'.green}`}
+      `)
+    } catch (error) {
+      console.log(error)
+      getTagListLoad.fail('获取项目版本失败...')
+      process.exit(-1)
     }
-    loader.succeed(`${answers.dir} 创建完成`)
-  })
-program.parse(process.argv) // 开始解析用户输入的命令
+
+    // 向用户咨询欲创建项目的目录
+    const repoName = [
+      {
+        type: 'input',
+        name: 'repoPath',
+        message: '请输入项目名称~',
+        validate(v) {
+          const done = this.async()
+          if (!v.trim()) {
+            done('项目名称不能为空~')
+          }
+          done(null, true)
+        }
+      }
+    ]
+    const { repoPath } = await this.inquirer.prompt(repoName)
+
+    // 下载代码到指定的目录下
+    try {
+      downLoadLoad = this.downLoad.start()
+      await this.git.downloadProject({ repo, version, repoPath })
+      downLoadLoad.succeed(`
+        ${`${'^_^  '.yellow} ${'老弟加油'.green} ${'  ^_^'.yellow}`}
+      `)
+    } catch (error) {
+      downLoadLoad.fail('下载代码失败...')
+    }
+  }
+}
+const D = new Download()
+D.run()
