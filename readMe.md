@@ -16,6 +16,8 @@ piu init
 
 ## Example
 
+![piu-cli-example](http://img.blog.niubishanshan.top/piu-cli-example.gif)
+
 ## License
 
 [MIT](https://github.com/luoquanquan/piu-cli/blob/develop/LICENSE)
