@@ -1,6 +1,6 @@
 {
   "name": "piu-cli",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "piu-cli 一个用来玩耍的脚手架",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,12 @@
   "bin": {
     "piu": "./bin/www"
   },
-  "keywords": ["piu-cli", "cli", "piu", "koa"],
+  "keywords": [
+    "piu-cli",
+    "cli",
+    "piu",
+    "koa"
+  ],
   "author": "luo_quanquan@163.com",
   "license": "ISC",
   "dependencies": {
